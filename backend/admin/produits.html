@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produits — Braise Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="mark">BRAISE</div><div class="sub">Admin</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Menu</div>
+      <a href="dashboard.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a href="commandes.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>Commandes</a>
+      <a href="devis.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Devis</a>
+      <a href="produits.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Produits</a>
+      <a href="coffrets.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>Coffrets</a>
+      <a href="clients.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Clients</a>
+    </nav>
+    <div class="sidebar-footer"><button onclick="logout()" style="color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Déconnexion</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Produits</h1>
+      <div class="topbar-actions">
+        <span style="font-size:12px;color:var(--muted)">Cliquer sur prix ou stock pour éditer</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="table-wrap">
+        <div class="table-head">
+          <h2>15 SKUs — 5 gestuelles × 3 âmes</h2>
+          <div class="table-filters">
+            <select id="filter-gestuelle">
+              <option value="">Toutes gestuelles</option>
+            </select>
+            <select id="filter-ame">
+              <option value="">Toutes les âmes</option>
+              <option value="layl">Layl</option>
+              <option value="bahjat">Bahjat</option>
+              <option value="assel">Assel</option>
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Gestuelle</th>
+              <th>Format</th>
+              <th>Âme</th>
+              <th>Badge</th>
+              <th style="text-align:right">Prix (MAD)</th>
+              <th style="text-align:right">Stock</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr class="empty-row"><td colspan="7">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:12px;color:var(--muted);margin-top:14px">
+        Appuyer <kbd style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:11px">Entrée</kbd> ou cliquer ailleurs pour sauvegarder.
+      </p>
+    </div>
+  </main>
+</div>
+
+<script src="admin.js"></script>
+<script>
+  requireAuth();
+  setActiveNav();
+
+  let produits = [];
+
+  async function load() {
+    const data = await apiFetch('/produits');
+    if (!data) return;
+    produits = data;
+
+    // Peupler filtre gestuelles
+    const gestuelles = [...new Set(data.map(p => p.gestuelle?.nom))].filter(Boolean);
+    const sel = document.getElementById('filter-gestuelle');
+    gestuelles.forEach(g => {
+      const opt = document.createElement('option');
+      opt.value = g;
+      opt.textContent = g;
+      sel.appendChild(opt);
+    });
+
+    render(produits);
+  }
+
+  function render(rows) {
+    const tbody = document.getElementById('tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Aucun produit</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(p => `
+      <tr>
+        <td><strong>${p.gestuelle?.nom || '—'}</strong></td>
+        <td class="muted">${p.gestuelle?.format || '—'}</td>
+        <td>
+          <span style="display:inline-flex;align-items:center;gap:6px">
+            <span style="width:10px;height:10px;border-radius:50%;background:${p.ame?.couleur_hex || '#888'};flex-shrink:0"></span>
+            ${p.ame?.nom || '—'}
+          </span>
+        </td>
+        <td>${p.badge ? `<span class="badge badge-preparation">${p.badge}</span>` : '<span class="muted">—</span>'}</td>
+        <td style="text-align:right">
+          <input class="editable" type="number" value="${p.prix}" min="1"
+            onblur="savePrix('${p.id}', this)"
+            onkeydown="if(event.key==='Enter')this.blur()">
+        </td>
+        <td style="text-align:right">
+          <input class="editable" type="number" value="${p.stock}" min="0"
+            onblur="saveStock('${p.id}', this)"
+            onkeydown="if(event.key==='Enter')this.blur()">
+        </td>
+        <td>
+          <span class="badge ${p.actif ? 'badge-livree' : 'badge-annulee'}">${p.actif ? 'Actif' : 'Inactif'}</span>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function savePrix(id, input) {
+    const prix = parseInt(input.value);
+    if (!prix || prix < 1) { input.value = produits.find(p=>p.id===id)?.prix; return; }
+    const res = await apiFetch(`/produits/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ prix })
+    });
+    if (res) {
+      const p = produits.find(p => p.id === id);
+      if (p) p.prix = prix;
+      input.style.color = 'var(--green)';
+      setTimeout(() => input.style.color = '', 1000);
+    }
+  }
+
+  async function saveStock(id, input) {
+    const stock = parseInt(input.value);
+    if (isNaN(stock) || stock < 0) { input.value = produits.find(p=>p.id===id)?.stock; return; }
+    const res = await apiFetch(`/produits/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ stock })
+    });
+    if (res) {
+      const p = produits.find(p => p.id === id);
+      if (p) p.stock = stock;
+      input.style.color = 'var(--green)';
+      setTimeout(() => input.style.color = '', 1000);
+    }
+  }
+
+  function applyFilters() {
+    const g = document.getElementById('filter-gestuelle').value;
+    const a = document.getElementById('filter-ame').value;
+    let rows = produits;
+    if (g) rows = rows.filter(p => p.gestuelle?.nom === g);
+    if (a) rows = rows.filter(p => p.ame?.slug === a);
+    render(rows);
+  }
+
+  document.getElementById('filter-gestuelle').addEventListener('change', applyFilters);
+  document.getElementById('filter-ame').addEventListener('change', applyFilters);
+
+  load();
+</script>
+</body>
+</html>

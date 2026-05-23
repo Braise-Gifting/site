@@ -3,8 +3,7 @@ import CorporateForm from "./CorporateForm";
 
 export const metadata: Metadata = {
   title: "Cadeaux Corporate",
-  description:
-    "Coffrets olfactifs personnalisés pour entreprises. Logo, message, packaging sur mesure. À partir de 20 unités. Devis gratuit.",
+  description: "Coffrets olfactifs personnalisés pour entreprises. Logo, message, packaging sur mesure. À partir de 20 unités. Devis gratuit.",
 };
 
 const avantages = [
@@ -15,49 +14,57 @@ const avantages = [
 ];
 
 const occasions = [
-  "Cadeaux de fin d'année", "Onboarding collaborateurs", "Cadeaux clients VIP",
-  "Événements corporate", "Séminaires et conférences", "Inauguration de locaux",
-  "Fêtes nationales (Aïd)", "Anniversaire d'entreprise",
+  "Cadeaux de fin d'année",
+  "Onboarding collaborateurs",
+  "Cadeaux clients VIP",
+  "Événements corporate",
+  "Séminaires et conférences",
+  "Inauguration de locaux",
+  "Fêtes nationales",
+  "Anniversaire d'entreprise",
 ];
 
 export default function Corporate() {
   return (
     <>
-      <section className="py-28 bg-[#0D0D0D]">
-        <div className="container-braise">
-          <p className="section-label mb-6">B2B · Entreprises</p>
-          <h1 className="heading-xl max-w-2xl mb-6" style={{ color: "#F5F0EB" }}>
-            Votre marque mérite
-            <br />
-            <em style={{ color: "#C8A96E" }}>un cadeau à sa hauteur.</em>
+      {/* ── Hero ── */}
+      <section style={{ background: "#0D0D0D", padding: "140px var(--pad-x) clamp(80px,10vh,120px)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="section-eyebrow"><span className="ey-num">B2B</span> Entreprises <span className="ey-line" /></div>
+          <h1 className="heading-xl" style={{ color: "#F5F0EB", margin: "0 0 32px", maxWidth: "820px" }}>
+            Votre marque mérite<br />
+            <em style={{ fontStyle: "italic", color: "#C8A96E" }}>un cadeau à sa hauteur.</em>
           </h1>
-          <p className="text-base max-w-xl leading-relaxed" style={{ color: "rgba(245,240,235,0.55)" }}>
+          <p style={{ fontSize: "17px", color: "var(--muted)", maxWidth: "560px", lineHeight: 1.7, fontWeight: 300 }}>
             Coffrets olfactifs premium personnalisés à l'image de votre entreprise.
             Pour vos collaborateurs, vos clients, vos événements. Un cadeau qu'on n'oublie pas.
           </p>
         </div>
       </section>
 
-      <section className="py-20 bg-[#161412]" style={{ borderTop: "1px solid rgba(245,240,235,0.06)" }}>
-        <div className="container-braise">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* ── Avantages ── */}
+      <section style={{ background: "#161412", borderTop: "1px solid var(--hairline)", padding: "clamp(80px,10vh,120px) var(--pad-x)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="section-eyebrow"><span className="ey-num">—</span> Ce que nous offrons <span className="ey-line" /></div>
+          <div className="corporate-avantages-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "40px", marginTop: "64px" }}>
             {avantages.map((a) => (
-              <div key={a.titre} className="flex flex-col gap-3">
-                <div className="w-8 h-px bg-[#C8A96E]" />
-                <h3 className="text-sm font-medium" style={{ color: "#F5F0EB" }}>{a.titre}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(245,240,235,0.45)" }}>{a.texte}</p>
+              <div key={a.titre}>
+                <div style={{ width: "32px", height: "1px", background: "#C8A96E", marginBottom: "24px" }} />
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "20px", fontWeight: 400, color: "#F5F0EB", margin: "0 0 12px", lineHeight: 1.3 }}>{a.titre}</h3>
+                <p style={{ fontSize: "14px", lineHeight: 1.7, color: "var(--muted)", margin: 0 }}>{a.texte}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-[#0D0D0D]">
-        <div className="container-braise">
-          <p className="section-label mb-10">Pour quelles occasions ?</p>
-          <div className="flex flex-wrap gap-3">
+      {/* ── Occasions ── */}
+      <section style={{ background: "#0D0D0D", borderTop: "1px solid var(--hairline)", padding: "clamp(80px,10vh,120px) var(--pad-x)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="section-eyebrow"><span className="ey-num">—</span> Pour quelles occasions <span className="ey-line" /></div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "48px" }}>
             {occasions.map((o) => (
-              <span key={o} className="px-5 py-2.5 text-sm" style={{ border: "1px solid rgba(245,240,235,0.12)", color: "rgba(245,240,235,0.55)" }}>
+              <span key={o} style={{ padding: "12px 20px", border: "1px solid var(--hairline)", color: "var(--muted)", fontSize: "13px", letterSpacing: "0.08em" }}>
                 {o}
               </span>
             ))}
@@ -65,11 +72,17 @@ export default function Corporate() {
         </div>
       </section>
 
-      <section className="py-20 bg-[#161412]" id="devis">
-        <div className="container-braise max-w-2xl mx-auto">
-          <p className="section-label mb-4">Devis gratuit</p>
-          <h2 className="heading-md mb-10" style={{ color: "#F5F0EB" }}>Parlons de votre projet</h2>
-          <CorporateForm />
+      {/* ── Devis ── */}
+      <section id="devis" style={{ background: "#161412", borderTop: "1px solid var(--hairline)", padding: "clamp(80px,10vh,120px) var(--pad-x)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="section-eyebrow"><span className="ey-num">—</span> Devis gratuit <span className="ey-line" /></div>
+          <h2 className="heading-md" style={{ color: "#F5F0EB", margin: "32px 0 64px", maxWidth: "480px" }}>
+            Parlons de<br />
+            <em style={{ fontStyle: "italic", color: "#C8A96E" }}>votre projet.</em>
+          </h2>
+          <div style={{ maxWidth: "720px" }}>
+            <CorporateForm />
+          </div>
         </div>
       </section>
     </>

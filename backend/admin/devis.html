@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devis — Braise Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+<style>
+  .badge-nouveau      { color: var(--blue);   background: rgba(90,156,245,0.12); }
+  .badge-en_cours     { color: var(--or);     background: rgba(200,169,110,0.12); }
+  .badge-devis_envoye { color: var(--blue);   background: rgba(90,156,245,0.18); }
+  .badge-accepte      { color: var(--green);  background: rgba(82,201,122,0.12); }
+  .badge-refuse       { color: var(--red);    background: rgba(224,82,82,0.12); }
+  .badge-abandonne    { color: var(--muted);  background: rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="mark">BRAISE</div><div class="sub">Admin</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Menu</div>
+      <a href="dashboard.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a href="commandes.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>Commandes</a>
+      <a href="devis.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Devis</a>
+      <a href="produits.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Produits</a>
+      <a href="coffrets.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>Coffrets</a>
+      <a href="clients.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Clients</a>
+    </nav>
+    <div class="sidebar-footer"><button onclick="logout()" style="color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Déconnexion</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Devis Corporate</h1>
+      <div class="topbar-actions">
+        <span id="total-count" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="table-wrap">
+        <div class="table-head">
+          <h2>Demandes de devis</h2>
+          <div class="table-filters">
+            <select id="filter-statut">
+              <option value="">Tous les statuts</option>
+              <option value="nouveau">Nouveau</option>
+              <option value="en_cours">En cours</option>
+              <option value="devis_envoye">Devis envoyé</option>
+              <option value="accepte">Accepté</option>
+              <option value="refuse">Refusé</option>
+              <option value="abandonne">Abandonné</option>
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Référence</th>
+              <th>Entreprise</th>
+              <th>Contact</th>
+              <th>Téléphone</th>
+              <th>Unités</th>
+              <th>Budget</th>
+              <th>Statut</th>
+              <th>Reçu le</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr class="empty-row"><td colspan="8">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Drawer détail devis -->
+<div class="modal-overlay" id="overlay" onclick="closeDrawer(event)">
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div>
+        <h3 id="d-ref">—</h3>
+        <div id="d-statut" style="margin-top:6px"></div>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Entreprise</h4>
+      <div class="info-row"><span class="label">Société</span><span class="val" id="d-entreprise">—</span></div>
+      <div class="info-row"><span class="label">Contact</span><span class="val" id="d-contact">—</span></div>
+      <div class="info-row"><span class="label">Resp. comm.</span><span class="val" id="d-resp">—</span></div>
+      <div class="info-row"><span class="label">Téléphone</span><span class="val" id="d-tel">—</span></div>
+      <div class="info-row"><span class="label">Email</span><span class="val" id="d-email">—</span></div>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Demande</h4>
+      <div class="info-row"><span class="label">Unités</span><span class="val" id="d-unites">—</span></div>
+      <div class="info-row"><span class="label">Budget unitaire</span><span class="val" id="d-budget">—</span></div>
+      <div class="info-row"><span class="label">Occasion</span><span class="val" id="d-occasion">—</span></div>
+      <div class="info-row"><span class="label">Date souhaitée</span><span class="val" id="d-date">—</span></div>
+    </div>
+
+    <div class="drawer-section" id="d-msg-section" style="display:none">
+      <h4>Message</h4>
+      <p id="d-msg" style="font-size:13px;color:var(--muted);font-style:italic;line-height:1.6"></p>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Actions rapides</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <a id="d-wa" href="#" target="_blank" class="btn btn-ghost btn-sm">
+          <svg width="14" height="14" viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.3 2 2 8.3 2 16c0 2.8.8 5.4 2.3 7.6L2 30l6.6-2.2c2.2 1.2 4.7 1.9 7.4 1.9 7.7 0 14-6.3 14-14S23.7 2 16 2zm6.6 19.3c-.4-.2-2.2-1.1-2.5-1.2s-.6-.2-.9.2c-.3.4-1 1.2-1.2 1.4-.2.2-.4.2-.8 0-.4-.2-1.6-.6-3-1.9-1.1-1-1.8-2.2-2-2.6-.2-.4 0-.6.2-.8l.5-.7c.2-.2.2-.4.4-.7.1-.2 0-.5-.1-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.6-.7-.9-.7h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.2 3.4 1.4 3.6.2.2 2.4 3.7 5.9 5.2.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2.2-.9 2.5-1.7.3-.9.3-1.6.2-1.7z"/></svg>
+          WhatsApp
+        </a>
+        <a id="d-mail" href="#" class="btn btn-ghost btn-sm">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Changer le statut</h4>
+      <div class="statut-btns" id="d-statut-btns"></div>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Notes internes</h4>
+      <textarea id="d-notes" rows="3" placeholder="Notes visibles uniquement par vous..."></textarea>
+      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="saveNotes()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>
+  requireAuth();
+  setActiveNav();
+
+  const STATUTS_DEVIS = {
+    nouveau:       { label: 'Nouveau',        cls: 'badge-nouveau' },
+    en_cours:      { label: 'En cours',       cls: 'badge-en_cours' },
+    devis_envoye:  { label: 'Devis envoyé',   cls: 'badge-devis_envoye' },
+    accepte:       { label: 'Accepté',        cls: 'badge-accepte' },
+    refuse:        { label: 'Refusé',         cls: 'badge-refuse' },
+    abandonne:     { label: 'Abandonné',      cls: 'badge-abandonne' }
+  };
+
+  function devisBadge(statut) {
+    const s = STATUTS_DEVIS[statut] || { label: statut, cls: '' };
+    return `<span class="badge ${s.cls}">${s.label}</span>`;
+  }
+
+  let currentRef = null;
+  let allDevis = [];
+
+  async function load(statut = '') {
+    const qs = statut ? `?statut=${statut}` : '';
+    const data = await apiFetch('/devis' + qs);
+    if (!data) return;
+    allDevis = data.data || [];
+    document.getElementById('total-count').textContent = `${data.total || allDevis.length} demandes`;
+    renderTable(allDevis);
+  }
+
+  function renderTable(rows) {
+    const tbody = document.getElementById('tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">Aucun devis pour l\'instant</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(d => `
+      <tr onclick="openDrawer('${d.ref}')">
+        <td><strong>${d.ref}</strong></td>
+        <td>${d.entreprise}</td>
+        <td class="muted">${d.contact}</td>
+        <td class="muted">${d.telephone}</td>
+        <td>${d.unites}</td>
+        <td class="muted">${d.budget || '—'}</td>
+        <td>${devisBadge(d.statut)}</td>
+        <td class="muted">${fmtDateTime(d.created_at)}</td>
+      </tr>
+    `).join('');
+  }
+
+  async function openDrawer(ref) {
+    currentRef = ref;
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById('d-ref').textContent = ref;
+    document.getElementById('d-statut').innerHTML = '<span style="color:var(--muted);font-size:13px">Chargement...</span>';
+
+    const d = await apiFetch('/devis/' + ref);
+    if (!d) return;
+
+    document.getElementById('d-statut').innerHTML    = devisBadge(d.statut);
+    document.getElementById('d-entreprise').textContent = d.entreprise;
+    document.getElementById('d-contact').textContent    = d.contact;
+    document.getElementById('d-resp').textContent       = d.resp_comm || '—';
+    document.getElementById('d-tel').textContent        = d.telephone;
+    document.getElementById('d-email').textContent      = d.email;
+    document.getElementById('d-unites').textContent     = d.unites;
+    document.getElementById('d-budget').textContent     = d.budget || '—';
+    document.getElementById('d-occasion').textContent   = d.occasion || '—';
+    document.getElementById('d-date').textContent       = d.date_livraison ? new Date(d.date_livraison).toLocaleDateString('fr-FR') : '—';
+    document.getElementById('d-notes').value            = d.notes_internes || '';
+
+    if (d.message) {
+      document.getElementById('d-msg-section').style.display = '';
+      document.getElementById('d-msg').textContent = d.message;
+    } else {
+      document.getElementById('d-msg-section').style.display = 'none';
+    }
+
+    const tel = d.telephone.replace(/\s/g, '');
+    const waMsg = encodeURIComponent(`Bonjour ${d.contact}, suite à votre demande de devis (${d.ref}) pour ${d.entreprise}...`);
+    document.getElementById('d-wa').href   = `https://wa.me/${tel.replace('+','')}?text=${waMsg}`;
+    document.getElementById('d-mail').href = `mailto:${d.email}?subject=Devis Braise — ${d.ref}&body=Bonjour ${d.contact},%0A%0ASuite à votre demande de devis...`;
+
+    const statuts = Object.entries(STATUTS_DEVIS).filter(([k]) => k !== d.statut);
+    document.getElementById('d-statut-btns').innerHTML = statuts.map(([k, v]) =>
+      `<button class="btn btn-ghost btn-sm" onclick="changeStatut('${k}')">${v.label}</button>`
+    ).join('');
+  }
+
+  async function changeStatut(statut) {
+    if (!currentRef) return;
+    const data = await apiFetch(`/devis/${currentRef}/statut`, {
+      method: 'PATCH',
+      body: JSON.stringify({ statut })
+    });
+    if (data) {
+      document.getElementById('d-statut').innerHTML = devisBadge(statut);
+      const row = allDevis.find(d => d.ref === currentRef);
+      if (row) { row.statut = statut; renderTable(allDevis); }
+      const statuts = Object.entries(STATUTS_DEVIS).filter(([k]) => k !== statut);
+      document.getElementById('d-statut-btns').innerHTML = statuts.map(([k, v]) =>
+        `<button class="btn btn-ghost btn-sm" onclick="changeStatut('${k}')">${v.label}</button>`
+      ).join('');
+    }
+  }
+
+  async function saveNotes() {
+    if (!currentRef) return;
+    const notes_internes = document.getElementById('d-notes').value;
+    await apiFetch(`/devis/${currentRef}/notes`, {
+      method: 'PATCH',
+      body: JSON.stringify({ notes_internes })
+    });
+    const btn = event.target;
+    btn.textContent = 'Sauvegardé ✓';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'Enregistrer'; btn.style.color = ''; }, 2000);
+  }
+
+  function closeDrawer(e) {
+    if (e && e.target !== document.getElementById('overlay')) return;
+    document.getElementById('overlay').classList.remove('open');
+    currentRef = null;
+  }
+
+  document.getElementById('filter-statut').addEventListener('change', e => load(e.target.value));
+
+  load();
+</script>
+</body>
+</html>

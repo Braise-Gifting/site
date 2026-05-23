@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion — Braise Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="mark">BRAISE</div>
+      <div class="sub">Backoffice</div>
+    </div>
+    <p id="error" class="error-msg">Mot de passe incorrect.</p>
+    <form id="form">
+      <div class="form-field">
+        <label for="pwd">Mot de passe</label>
+        <input id="pwd" type="password" placeholder="••••••••" autofocus required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+        Accéder
+      </button>
+    </form>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>
+  if (getToken()) location.href = 'dashboard.html';
+
+  document.getElementById('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pwd = document.getElementById('pwd').value;
+    const res = await fetch('http://localhost:4000/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwd })
+    });
+    if (res.ok) {
+      const { token } = await res.json();
+      setToken(token);
+      location.href = 'dashboard.html';
+    } else {
+      document.getElementById('error').classList.add('show');
+      document.getElementById('pwd').value = '';
+      document.getElementById('pwd').focus();
+    }
+  });
+</script>
+</body>
+</html>

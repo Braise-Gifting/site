@@ -2,31 +2,32 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Contactez Braise — commandes, personnalisation, B2B. WhatsApp, email ou Instagram.",
+  description: "Contactez Braise — commandes, personnalisation, B2B. WhatsApp, email ou Instagram.",
 };
+
+const M = { fontFamily: "var(--font-mono)" };
 
 const canaux = [
   {
     label: "WhatsApp",
     valeur: "Commander directement",
-    detail: "Le canal le plus rapide pour les commandes et questions.",
+    detail: "Le canal le plus rapide pour les commandes et questions. On répond en moins d'une heure.",
     href: "https://wa.me/212600000000?text=Bonjour%20Braise%2C%20j'ai%20une%20question.",
-    cta: "Ouvrir WhatsApp",
+    cta: "Ouvrir WhatsApp →",
   },
   {
     label: "Email",
     valeur: "contact@braise.ma",
-    detail: "Pour les demandes corporate, partenariats et questions générales.",
+    detail: "Pour les demandes corporate, partenariats et questions générales. Réponse sous 24h.",
     href: "mailto:contact@braise.ma",
-    cta: "Envoyer un email",
+    cta: "Envoyer un email →",
   },
   {
     label: "Instagram",
     valeur: "@braise.ma",
-    detail: "Pour découvrir les coulisses, les nouveautés et l'univers Braise.",
+    detail: "Pour découvrir les coulisses, les nouveautés et l'univers Braise au quotidien.",
     href: "https://instagram.com/braise.ma",
-    cta: "Suivre sur Instagram",
+    cta: "Suivre sur Instagram →",
   },
 ];
 
@@ -56,63 +57,45 @@ const faq = [
 export default function Contact() {
   return (
     <>
-      {/* Hero */}
-      <section className="py-24 bg-[#0D0D0D]" style={{ borderBottom: "1px solid rgba(245,240,235,0.06)" }}>
-        <div className="container-braise">
-          <p className="section-label mb-6">On est là</p>
-          <h1 className="heading-xl max-w-2xl mb-6" style={{ color: "#F5F0EB" }}>
-            Parlons-nous
+      {/* ── Hero ── */}
+      <section style={{ background: "#0D0D0D", padding: "140px var(--pad-x) clamp(80px,10vh,120px)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="section-eyebrow"><span className="ey-num">—</span> On est là <span className="ey-line" /></div>
+          <h1 className="heading-xl" style={{ color: "#F5F0EB", margin: "0 0 32px", maxWidth: "620px" }}>
+            Parlons-nous.
           </h1>
-          <p className="text-base max-w-xl leading-relaxed" style={{ color: "rgba(245,240,235,0.55)" }}>
+          <p style={{ fontSize: "17px", color: "var(--muted)", maxWidth: "480px", lineHeight: 1.7, fontWeight: 300 }}>
             Pour commander, personnaliser un coffret, ou simplement poser une
             question — WhatsApp est le moyen le plus rapide.
           </p>
         </div>
       </section>
 
-      {/* Canaux */}
-      <section className="py-20 bg-[#161412]">
-        <div className="container-braise">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ── Canaux ── */}
+      <section style={{ background: "#161412", borderTop: "1px solid var(--hairline)", padding: "clamp(80px,10vh,120px) var(--pad-x)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="contact-canaux-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }}>
             {canaux.map((c) => (
-              <div
-                key={c.label}
-                className="flex flex-col p-8"
-                style={{ border: "1px solid rgba(245,240,235,0.08)", background: "#0D0D0D" }}
-              >
-                <p className="section-label mb-3">{c.label}</p>
-                <p className="text-base mb-3" style={{ fontFamily: "var(--font-serif)", color: "#F5F0EB" }}>
-                  {c.valeur}
-                </p>
-                <p className="text-sm leading-relaxed mb-8" style={{ color: "rgba(245,240,235,0.45)" }}>
-                  {c.detail}
-                </p>
-                <a href={c.href} target="_blank" rel="noopener noreferrer" className="btn-outline self-start mt-auto">
-                  {c.cta}
-                </a>
+              <div key={c.label} style={{ display: "flex", flexDirection: "column", padding: "40px 36px", border: "1px solid var(--hairline)", background: "#0D0D0D" }}>
+                <div style={{ ...M, fontSize: "10px", letterSpacing: "0.32em", color: "#C8A96E", textTransform: "uppercase", marginBottom: "20px" }}>{c.label}</div>
+                <p style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "#F5F0EB", margin: "0 0 16px", lineHeight: 1.3 }}>{c.valeur}</p>
+                <p style={{ fontSize: "14px", color: "var(--muted)", lineHeight: 1.7, margin: "0 0 40px", flex: 1 }}>{c.detail}</p>
+                <a href={c.href} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ alignSelf: "flex-start" }}>{c.cta}</a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-20 bg-[#0D0D0D]">
-        <div className="container-braise max-w-2xl mx-auto">
-          <p className="section-label mb-10">Questions fréquentes</p>
-          <div className="flex flex-col gap-0">
+      {/* ── FAQ ── */}
+      <section style={{ background: "#0D0D0D", borderTop: "1px solid var(--hairline)", padding: "clamp(80px,10vh,120px) var(--pad-x)" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <div className="section-eyebrow"><span className="ey-num">—</span> Questions fréquentes <span className="ey-line" /></div>
+          <div style={{ maxWidth: "720px", marginTop: "64px" }}>
             {faq.map((item, i) => (
-              <div
-                key={i}
-                className="py-7"
-                style={{ borderBottom: "1px solid rgba(245,240,235,0.07)" }}
-              >
-                <h3 className="text-sm font-medium mb-3" style={{ color: "#F5F0EB" }}>
-                  {item.q}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(245,240,235,0.5)" }}>
-                  {item.r}
-                </p>
+              <div key={i} style={{ padding: "32px 0", borderBottom: "1px solid var(--hairline)" }}>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "20px", fontWeight: 400, color: "#F5F0EB", margin: "0 0 16px" }}>{item.q}</h3>
+                <p style={{ fontSize: "14px", color: "var(--muted)", lineHeight: 1.7, margin: 0 }}>{item.r}</p>
               </div>
             ))}
           </div>

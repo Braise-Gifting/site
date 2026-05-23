@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clients — Braise Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="mark">BRAISE</div><div class="sub">Admin</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Menu</div>
+      <a href="dashboard.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a href="commandes.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>Commandes</a>
+      <a href="devis.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Devis</a>
+      <a href="produits.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Produits</a>
+      <a href="coffrets.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>Coffrets</a>
+      <a href="clients.html" class="nav-link"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Clients</a>
+    </nav>
+    <div class="sidebar-footer"><button onclick="logout()" style="color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Déconnexion</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Clients</h1>
+      <div class="topbar-actions">
+        <span id="total-count" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="table-wrap">
+        <div class="table-head">
+          <h2>Base clients</h2>
+          <div class="table-filters">
+            <input id="search" type="text" placeholder="Rechercher..." style="width:220px">
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Ville</th>
+              <th>Commandes</th>
+              <th>Inscrit le</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr class="empty-row"><td colspan="6">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Drawer détail client -->
+<div class="modal-overlay" id="overlay" onclick="closeDrawer(event)">
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <h3 id="d-nom">—</h3>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Informations</h4>
+      <div class="info-row"><span class="label">Email</span><span class="val" id="d-email">—</span></div>
+      <div class="info-row"><span class="label">Téléphone</span><span class="val" id="d-tel">—</span></div>
+      <div class="info-row"><span class="label">Adresse</span><span class="val" id="d-adresse">—</span></div>
+      <div class="info-row"><span class="label">Ville</span><span class="val" id="d-ville">—</span></div>
+      <div class="info-row"><span class="label">Client depuis</span><span class="val" id="d-since">—</span></div>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Commandes</h4>
+      <div id="d-commandes"></div>
+    </div>
+
+    <div class="drawer-section">
+      <h4>Notes internes</h4>
+      <textarea id="d-notes" rows="3" placeholder="Notes visibles uniquement par vous..."></textarea>
+      <button class="btn btn-ghost btn-sm" style="margin-top:8px" id="save-notes-btn">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>
+  requireAuth();
+  setActiveNav();
+
+  let currentClientId = null;
+  let searchTimer = null;
+
+  async function load(search = '') {
+    const qs = search ? `?search=${encodeURIComponent(search)}&limit=100` : '?limit=100';
+    const data = await apiFetch('/clients' + qs);
+    if (!data) return;
+    document.getElementById('total-count').textContent = `${data.total || (data.data || []).length} clients`;
+    renderTable(data.data || []);
+  }
+
+  function renderTable(rows) {
+    const tbody = document.getElementById('tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Aucun client trouvé</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(c => `
+      <tr onclick="openDrawer('${c.id}')">
+        <td><strong>${c.prenom} ${c.nom}</strong></td>
+        <td class="muted">${c.email}</td>
+        <td class="muted">${c.telephone || '—'}</td>
+        <td class="muted">${c.ville || '—'}</td>
+        <td>${c.commandes?.length ?? '—'}</td>
+        <td class="muted">${fmtDate(c.created_at)}</td>
+      </tr>
+    `).join('');
+  }
+
+  async function openDrawer(id) {
+    currentClientId = id;
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById('d-nom').textContent = 'Chargement...';
+
+    const c = await apiFetch('/clients/' + id);
+    if (!c) return;
+
+    document.getElementById('d-nom').textContent     = c.prenom + ' ' + c.nom;
+    document.getElementById('d-email').textContent   = c.email;
+    document.getElementById('d-tel').textContent     = c.telephone || '—';
+    document.getElementById('d-adresse').textContent = c.adresse || '—';
+    document.getElementById('d-ville').textContent   = c.ville || '—';
+    document.getElementById('d-since').textContent   = fmtDate(c.created_at);
+    document.getElementById('d-notes').value         = c.notes || '';
+
+    const cmds = c.commandes || [];
+    document.getElementById('d-commandes').innerHTML = cmds.length
+      ? cmds.map(cmd => `
+          <div class="info-row">
+            <span class="label">${cmd.ref}</span>
+            <span class="val" style="display:flex;gap:8px;align-items:center">
+              ${fmtMontant(cmd.montant_total)}
+              ${statutBadge(cmd.statut)}
+            </span>
+          </div>
+        `).join('')
+      : '<p style="color:var(--muted);font-size:13px">Aucune commande</p>';
+
+    document.getElementById('save-notes-btn').onclick = saveNotes;
+  }
+
+  async function saveNotes() {
+    if (!currentClientId) return;
+    const notes = document.getElementById('d-notes').value;
+    await apiFetch('/clients/' + currentClientId + '/notes', {
+      method: 'PATCH',
+      body: JSON.stringify({ notes })
+    });
+    const btn = document.getElementById('save-notes-btn');
+    btn.textContent = 'Sauvegardé ✓';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'Enregistrer'; btn.style.color = ''; }, 2000);
+  }
+
+  function closeDrawer(e) {
+    if (e && e.target !== document.getElementById('overlay')) return;
+    document.getElementById('overlay').classList.remove('open');
+    currentClientId = null;
+  }
+
+  document.getElementById('search').addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => load(e.target.value), 350);
+  });
+
+  load();
+</script>
+</body>
+</html>

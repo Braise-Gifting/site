@@ -1,114 +1,134 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const nav = [
-  { label: "Les Âmes", href: "/les-ames" },
+const navLeft = [
+  { label: "Les Âmes",      href: "/les-ames" },
   { label: "Les Gestuelles", href: "/les-gestuelles" },
-  { label: "Les Coffrets", href: "/les-coffrets" },
-  { label: "Notre Histoire", href: "/notre-histoire" },
+  { label: "Les Coffrets",  href: "/les-coffrets" },
+  { label: "Notre histoire", href: "/notre-histoire" },
+];
+
+const navRight = [
   { label: "Corporate", href: "/corporate" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact",   href: "/contact" },
 ];
 
 const marqueeItems = [
+  "Livraison J+1 à Casablanca",
+  "Paiement à la livraison disponible",
+  "Packaging premium offert",
+  "Personnalisation incluse",
   "Assemblé à la main à Casablanca",
-  "Livraison J+1 Casablanca · J+3 Maroc",
-  "Coffrets personnalisés sur mesure",
-  "Cadeaux corporate — devis gratuit",
-  "3 âmes olfactives exclusives",
+  "Fragrances exclusives",
 ];
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
-      {/* Utility bar */}
-      <div
-        style={{ borderBottom: "1px solid rgba(245,240,235,0.12)" }}
-        className="bg-[#0D0D0D] overflow-hidden"
-      >
-        <div className="animate-marquee inline-block whitespace-nowrap py-3">
+      {/* ── Utility bar (in normal flow — scrolls away) ── */}
+      <div style={{ background: "#0D0D0D", borderBottom: "1px solid var(--hairline)", color: "var(--muted)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", overflow: "hidden", whiteSpace: "nowrap" }}>
+        <div className="animate-marquee" style={{ display: "inline-block", padding: "12px 0" }}>
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="mx-9 text-[10px] tracking-[0.16em] uppercase" style={{ color: "rgba(245,240,235,0.45)" }}>
+            <span key={i} style={{ margin: "0 36px" }}>
               {item}
-              <span className="mx-3" style={{ color: "#C8A96E" }}>·</span>
+              <span style={{ color: "#C8A96E", margin: "0 8px" }}>·</span>
             </span>
           ))}
         </div>
       </div>
 
-      {/* Main header */}
+      {/* ── Fixed header ── */}
       <header
-        className="sticky top-0 z-50 bg-[#0D0D0D]/95 backdrop-blur-sm"
-        style={{ borderBottom: "1px solid rgba(245,240,235,0.08)" }}
+        style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0,
+          zIndex: 50,
+          paddingInline: "var(--pad-x)",
+          transition: "background 600ms ease, border-color 600ms ease",
+          background: scrolled ? "rgba(13,13,13,0.88)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
+          borderBottom: `1px solid ${scrolled ? "var(--hairline)" : "transparent"}`,
+        }}
       >
-        <div className="container-braise flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex flex-col leading-none">
-            <span style={{ fontFamily: "var(--font-serif)", fontSize: "1.35rem", fontWeight: 400, letterSpacing: "0.08em", color: "#F5F0EB" }}>
-              BRAISE
-            </span>
-            <span className="text-[9px] tracking-[0.22em] uppercase" style={{ color: "#C8A96E" }}>
-              Studio olfactif
-            </span>
-          </Link>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", height: "88px" }}>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-[11px] tracking-[0.12em] uppercase transition-colors duration-200 hover:text-[#C8A96E]"
-                style={{ color: "rgba(245,240,235,0.7)", fontWeight: 400 }}
-              >
-                {item.label}
-              </Link>
+          {/* nav-left (desktop) */}
+          <nav style={{ display: "flex", alignItems: "center", gap: "36px" }} className="hide-mobile">
+            {navLeft.map((l) => (
+              <Link key={l.href} href={l.href} className="nav-link">{l.label}</Link>
             ))}
           </nav>
 
-          {/* CTA + burger */}
-          <div className="flex items-center gap-4">
-            <Link href="/les-coffrets" className="hidden md:inline-flex btn-or text-[10px] py-3 px-6">
-              Commander
+          {/* Logo — centre */}
+          <Link href="/" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "3px", lineHeight: 1, textDecoration: "none" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontWeight: 400, fontSize: "28px", letterSpacing: "0.18em", color: "#F5F0EB" }}>
+              BRAISE
+            </span>
+            <span style={{ fontSize: "9px", letterSpacing: "0.4em", color: "var(--muted)", textTransform: "uppercase" }}>
+              Casablanca
+            </span>
+          </Link>
+
+          {/* nav-right (desktop) */}
+          <div style={{ display: "flex", alignItems: "center", gap: "36px", justifyContent: "flex-end" }} className="hide-mobile">
+            {navRight.map((l) => (
+              <Link key={l.href} href={l.href} className="nav-link">{l.label}</Link>
+            ))}
+            <Link href="/les-coffrets" className="cart-pill">
+              Commander <span className="count">→</span>
             </Link>
-            <button
-              className="md:hidden flex flex-col gap-1.5 p-2"
-              onClick={() => setOpen(!open)}
-              aria-label="Menu"
-            >
-              <span className="block w-5 h-px bg-[#F5F0EB] transition-all" style={{ transform: open ? "rotate(45deg) translate(3px, 3px)" : "none" }} />
-              <span className="block w-5 h-px bg-[#F5F0EB] transition-all" style={{ opacity: open ? 0 : 1 }} />
-              <span className="block w-5 h-px bg-[#F5F0EB] transition-all" style={{ transform: open ? "rotate(-45deg) translate(3px, -3px)" : "none" }} />
+          </div>
+
+          {/* Burger (mobile) */}
+          <div style={{ display: "flex", justifyContent: "flex-end" }} className="show-mobile">
+            <button onClick={() => setOpen(!open)} aria-label="Menu" style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "8px" }}>
+              <span style={{ display: "block", width: "20px", height: "1px", background: "#F5F0EB", transition: "all 300ms", transform: open ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
+              <span style={{ display: "block", width: "20px", height: "1px", background: "#F5F0EB", transition: "all 300ms", opacity: open ? 0 : 1 }} />
+              <span style={{ display: "block", width: "20px", height: "1px", background: "#F5F0EB", transition: "all 300ms", transform: open ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
         {open && (
-          <div className="md:hidden bg-[#161412]" style={{ borderTop: "1px solid rgba(245,240,235,0.08)" }}>
-            <nav className="container-braise flex flex-col py-6 gap-5">
-              {nav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="text-[12px] tracking-[0.14em] uppercase"
-                  style={{ color: "rgba(245,240,235,0.75)", fontWeight: 400 }}
-                >
-                  {item.label}
+          <div style={{ background: "#161412", borderTop: "1px solid var(--hairline)", padding: "24px var(--pad-x) 32px" }}>
+            <nav style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {[...navLeft, ...navRight].map((l) => (
+                <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
+                  style={{ fontSize: "13px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(245,240,235,0.75)" }}>
+                  {l.label}
                 </Link>
               ))}
-              <Link href="/les-coffrets" onClick={() => setOpen(false)} className="btn-or self-start mt-2">
+              <Link href="/les-coffrets" onClick={() => setOpen(false)} className="btn-or" style={{ alignSelf: "flex-start", marginTop: "8px" }}>
                 Commander
               </Link>
             </nav>
           </div>
         )}
       </header>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .hide-mobile { display: none !important; }
+          .show-mobile { display: flex !important; }
+        }
+        @media (min-width: 901px) {
+          .hide-mobile { display: flex !important; }
+          .show-mobile { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }
